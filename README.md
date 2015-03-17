@@ -8,10 +8,12 @@ The script leverges the tool that is found inside the OSX installer and has a co
 ### Usage
 
 	sudo sh osxUSB.sh 
-	This is an automated workflow, that will look for a usb called OSX and prepare it for use, then load OSX onto it.
+
+This is an automated workflow, that will look for a usb called OSX and prepare it for use, then load OSX onto it.
 
 	sudo sh osxUSB.sh /path/to/USB
-	This worksflow prompts the user for some minor input so that you can be sure you have entered the right path, and not wipe the wrong drive by accident.
+
+This worksflow prompts the user for some minor input so that you can be sure you have entered the right path, and not wipe the wrong drive by accident.
 
 
 
