@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# osxUSB v1.0
+# osxUSB v1.1
 # Creates a bootable OSX installer for use with OSX 10.10 Yosemite
 # Copyright (C) 2015  Ed Little
 #
@@ -28,8 +28,9 @@
 
 
 # DO NOT CHANGE
-VERSION="1.0"
+VERSION="1.1"
 FILENAME="osxUSB"
+CONTINUE=false
 
 # Verbose console output / Debugging set to off (0) by default, enable with (1)
 VERBOSE=0
@@ -38,7 +39,7 @@ VERBOSE=0
 # =========================================================================== #
 #                              Script below                                   #
 # =========================================================================== #
-
+clear
 
 
 
@@ -89,7 +90,7 @@ fi
 output() {
 	if [[ $VERBOSE == 1 ]]; then
 		printf "\033[0;32m"
-		printf "db: $1"
+		printf "debug: $1"
 		echo "\033[0m"
 	fi
 	echo "$(date +'%d %b %T') $FILENAME: $1" >> /var/log/cubbei_script_log/$FILENAME.log
@@ -107,11 +108,46 @@ error() {
 }
 
 if [[ $1 == "-h" ]]; then
+	
+	echo "--------------------------------------------------------------------------------"
+	echo "|                                 HELP / USAGE                                 |"
+	echo "--------------------------------------------------------------------------------"
+	echo
+	echo "Version: $VERSION"
+	echo
+	echo "Desctiption:"
+	echo "$FILENAME has been updated with $VERSION and now includes a selection of which"
+	echo "OSX installers to run and a list of the errors that occur."
+	echo
 	echo "Usage:"
-	echo "sudo sh $FILENAME \n - will look for a usb named OSX and run an automated creation process";
-	echo "sudo sh $FILENAME /path/to/usb \n - will wipe the target usb and use it to create a bootable device. \n   Some input from the user will be required.";
+	echo "sudo sh $FILENAME \n - will look for a usb named OSX and run an automated creation process"
+	echo "sudo sh $FILENAME /path/to/usb \n - will wipe the target usb and use it to create a bootable device. \n   Some input from the user will be required."
+	echo "sh $FILENAME -e \n - will print a list of the error codes and their descriptions."
 	exit
 fi
+
+if [[ $1 == "-e" ]]; then
+	echo "--------------------------------------------------------------------------------"
+	echo "|                                  ERROR LIST                                  |"
+	echo "--------------------------------------------------------------------------------"
+	echo
+	echo "Below you will find a list of the errors that can be produced in the script and \na description of what has likely caused it."
+	echo
+	echo "Code: 2"
+	echo "Description: Script was not run as root."
+	echo "Fix: Run the script using elevated privilges (i.e. sudo)"
+	echo
+	echo "Code: 3"
+	echo "Description: OSX Installer could not be found."
+	echo "Fix: Make sure that the OSX installer is in the Applications folder \n     (usually will be the default download directory from the AppStore)"
+	echo
+	echo "Code: 4"
+	echo "Description: USB could not be found."
+	echo "Fix: Make sure the path to the USB drive is complete."
+	echo
+	exit 0;
+fi
+
 
 if [[ $(whoami) != root ]]; then
 	echo "run as root"
@@ -119,10 +155,29 @@ if [[ $(whoami) != root ]]; then
 	error 2 
 fi
 
-echo "\033[0;33mOSX Bootable USB creator -- Version: $VERSION [March 2015]\033[0m"
+echo "\033[0;33mOSX Bootable USB creator -- Version: $VERSION [October 2015]\033[0m"
 output "Bootable USB -- Version: $VERSION"
 
-if [[ ! -d /Applications/Install\ OS\ X\ Yosemite.app ]]; then
+
+
+while ! $CONTINUE
+do
+	echo "Please select from the options below."
+	echo "1) Create Yosemite Installer";
+	echo "2) Create El Capitan Installer";
+	printf "Selection: "
+	read OPTION 
+	echo
+
+	case $OPTION in
+		1) APPPATH=/Applications/Install\ OS\ X\ Yosemite.app ; CONTINUE=true ; echo "Yosemite Selected."; output "Yosemite Selected, Installer path: $APPPATH";;
+		2) APPPATH=/Applications/Install\ El\ Capitan.app ; CONTINUE=true; echo "El Capitan Selected."; output "El Capitan Selected, Installer path: $APPPATH";;
+		*) echo "Invalid selection. Please select again.";;
+	esac
+done
+
+
+if [[ ! -d $APPPATH ]]; then
 	echo "OSX installer not found. Please download from the AppStore before continuing."
 	echo "NOTE: $0 expects app to be in default applications folder."
 	error 3 "OSX Installer not found"
@@ -135,7 +190,7 @@ fi
 if [ $# -eq 0 ]; then
 	if [[ -d /Volumes/OSX ]]; then
 		output "Found default drive: /Volumes/OSX. Starting drive creation"
-		sudo /Applications/Install\ OS\ X\ Yosemite.app/Contents/Resources/createinstallmedia --volume /Volumes/OSX --applicationpath /Applications/Install\ OS\ X\ Yosemite.app --nointeraction | tee -a /var/log/cubbei_script_log/$FILENAME.log
+		sudo $APPPATH/Contents/Resources/createinstallmedia --volume /Volumes/OSX --applicationpath APPPATH --nointeraction | tee -a /var/log/cubbei_script_log/$FILENAME.log
 	else
 		error 4 "Default path to USB not found, please provide path to USB"
 	fi
@@ -145,7 +200,7 @@ else
 		error 4 "Cannot find supplied path to USB: $1"
 	else
 		output "Starting drive creation"
-		sudo /Applications/Install\ OS\ X\ Yosemite.app/Contents/Resources/createinstallmedia --volume "$1" --applicationpath /Applications/Install\ OS\ X\ Yosemite.app
+		sudo $APPPATH/Contents/Resources/createinstallmedia --volume "$1" --applicationpath $APPPATH
 	fi
 fi
 output "all tasks completed"
