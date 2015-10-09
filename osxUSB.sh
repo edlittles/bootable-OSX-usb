@@ -171,7 +171,7 @@ do
 
 	case $OPTION in
 		1) APPPATH=/Applications/Install\ OS\ X\ Yosemite.app ; CONTINUE=true ; echo "Yosemite Selected."; output "Yosemite Selected, Installer path: $APPPATH";;
-		2) APPPATH=/Applications/Install\ El\ Capitan.app ; CONTINUE=true; echo "El Capitan Selected."; output "El Capitan Selected, Installer path: $APPPATH";;
+		2) APPPATH=/Applications/Install\ OS\ X\ El\ Capitan.app ; CONTINUE=true; echo "El Capitan Selected."; output "El Capitan Selected, Installer path: $APPPATH";;
 		*) echo "Invalid selection. Please select again.";;
 	esac
 done
