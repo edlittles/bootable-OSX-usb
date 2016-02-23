@@ -21,7 +21,7 @@ This worksflow prompts the user for some minor input so that you can be sure you
 	-e displays a list of errors that can be generated, their descriptions and potential fixes
 
 
-For and questions or queries, message me on twitter: @edlittles 
+For and questions or queries, message me on twitter: [@edlittles](https://twitter.com/edlittles "Twitter Handle")
 
 
 ### Versions
