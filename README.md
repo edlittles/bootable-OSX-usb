@@ -24,7 +24,9 @@ This worksflow prompts the user for some minor input so that you can be sure you
 For and questions or queries, message me on twitter: @edlittles 
 
 
-
+### Versions
+ - Version 1.1 - Support for El Capitan and additional help descriptions
+ - Version 1.0 - initial release
 
 
 *Software is provided under the GNU v3 License.*
