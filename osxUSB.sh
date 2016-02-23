@@ -28,7 +28,7 @@
 
 
 # DO NOT CHANGE
-VERSION="1.1"
+VERSION="1.1.1"
 FILENAME="osxUSB"
 CONTINUE=false
 
@@ -155,7 +155,7 @@ if [[ $(whoami) != root ]]; then
 	error 2 
 fi
 
-echo "\033[0;33mOSX Bootable USB creator -- Version: $VERSION [October 2015]\033[0m"
+echo "\033[0;33mOSX Bootable USB creator -- Version: $VERSION [February 2016]\033[0m"
 output "Bootable USB -- Version: $VERSION"
 
 
@@ -177,7 +177,7 @@ do
 done
 
 
-if [[ ! -d $APPPATH ]]; then
+if [[ ! -d "$APPPATH" ]]; then
 	echo "OSX installer not found. Please download from the AppStore before continuing."
 	echo "NOTE: $0 expects app to be in default applications folder."
 	error 3 "OSX Installer not found"
@@ -190,7 +190,7 @@ fi
 if [ $# -eq 0 ]; then
 	if [[ -d /Volumes/OSX ]]; then
 		output "Found default drive: /Volumes/OSX. Starting drive creation"
-		sudo $APPPATH/Contents/Resources/createinstallmedia --volume /Volumes/OSX --applicationpath APPPATH --nointeraction | tee -a /var/log/cubbei_script_log/$FILENAME.log
+		sudo "$APPPATH/Contents/Resources/createinstallmedia" --volume /Volumes/OSX --applicationpath "$APPPATH" --nointeraction | tee -a /var/log/cubbei_script_log/$FILENAME.log
 	else
 		error 4 "Default path to USB not found, please provide path to USB"
 	fi
@@ -200,7 +200,7 @@ else
 		error 4 "Cannot find supplied path to USB: $1"
 	else
 		output "Starting drive creation"
-		sudo $APPPATH/Contents/Resources/createinstallmedia --volume "$1" --applicationpath $APPPATH
+		sudo "$APPPATH/Contents/Resources/createinstallmedia" --volume "$1" --applicationpath "$APPPATH"
 	fi
 fi
 output "all tasks completed"

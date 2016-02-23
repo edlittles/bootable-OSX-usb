@@ -1,6 +1,6 @@
 # Bootable OSX USB
 
-	Version 1.1
+	Version 1.1.1
 
 This is a super simple script that I created to make creating a bootable OSX usb very quick and painless.
 The script leverges the tool that is found inside the OSX installer and has a couple of helpful bits and pieces to enable any OSX user create a bootable USB for backup or a debugging tool.
@@ -25,6 +25,7 @@ For and questions or queries, message me on twitter: @edlittles
 
 
 ### Versions
+ - Version 1.1.1 - Bugfixes
  - Version 1.1 - Support for El Capitan and additional help descriptions
  - Version 1.0 - initial release
 
