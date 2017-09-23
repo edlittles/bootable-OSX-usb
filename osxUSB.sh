@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# osxUSB v1.1
+# osxUSB v1.2
 # Creates a bootable OSX installer for use with OSX 10.10 Yosemite
 # Copyright (C) 2015  Ed Little
 #
@@ -20,7 +20,6 @@
 
 
 
-
 # Create bootable USB for OSX
 # Uses `createinstallmedia` in the installer for OSX to create a bootable USB device.
 #
@@ -28,9 +27,14 @@
 
 
 # DO NOT CHANGE
-VERSION="1.1.1"
+VERSION="1.2"
 FILENAME="osxUSB"
 CONTINUE=false
+
+# ChangeLog:
+# 1.1 - Added Support for El Capitan
+# 1.2 - Added Support for macOs Sierra
+
 
 # Verbose console output / Debugging set to off (0) by default, enable with (1)
 VERBOSE=0
@@ -155,7 +159,7 @@ if [[ $(whoami) != root ]]; then
 	error 2 
 fi
 
-echo "\033[0;33mOSX Bootable USB creator -- Version: $VERSION [February 2016]\033[0m"
+echo "\033[0;33mOSX Bootable USB creator -- Version: $VERSION [September 2017]\033[0m"
 output "Bootable USB -- Version: $VERSION"
 
 
@@ -165,6 +169,7 @@ do
 	echo "Please select from the options below."
 	echo "1) Create Yosemite Installer";
 	echo "2) Create El Capitan Installer";
+	echo "3) Create macOS Sierra Installer";
 	printf "Selection: "
 	read OPTION 
 	echo
@@ -172,6 +177,7 @@ do
 	case $OPTION in
 		1) APPPATH=/Applications/Install\ OS\ X\ Yosemite.app ; CONTINUE=true ; echo "Yosemite Selected."; output "Yosemite Selected, Installer path: $APPPATH";;
 		2) APPPATH=/Applications/Install\ OS\ X\ El\ Capitan.app ; CONTINUE=true; echo "El Capitan Selected."; output "El Capitan Selected, Installer path: $APPPATH";;
+		3) APPPATH=/Applications/Install\ macOS\ Sierra.app ; CONTINUE=true; echo "macOS Sierra Selected."; output "macOS Sierra Selected, Installer path: $APPPATH";;
 		*) echo "Invalid selection. Please select again.";;
 	esac
 done
